@@ -1,5 +1,3 @@
-from lib2to3.pgen2.token import EQUAL
-from pydoc import isdata
 import requests, json, time, datetime
 
 def mlog(market, *text):
@@ -174,6 +172,7 @@ if __name__ == "__main__":
 	print(info)
 	data=run(screener_country,candle_list)
 	strongBuySymbols=list(dict.fromkeys(data))
+	#13.12.2022 strong buy sembols.
 	#strongBuySymbols=['ENSRI', 'KZBGY', 'LKMNH', 'YYLGD', 'BRKO', 'RUBNS', 'ULAS', 'BRYAT', 'YUNSA', 'MEPET', 'GMSTR', 'ANSGR', 'MTRKS', 'ECZYT', 'RODRG', 'RALYH', 'ALTIN', 'PEKGY', 'PRZMA', 'SAMAT', 'IMASM', 'MPARK', 'CRDFA', 'SRVGY', 'QPERP', 'IZINV', 'DOCO', 'ISGSY', 'GLDTR', 'SANFM', 'DOBUR', 'FONET', 'USAK', 'ISGYO', 'ORMA', 'DGGYO', 'KRDMD', 'VERTU', 'MARTI']
 	print("***********************************")
 	print("Strong Buy Symbols : ",strongBuySymbols)
