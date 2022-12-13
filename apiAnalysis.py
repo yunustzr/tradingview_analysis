@@ -181,5 +181,7 @@ if __name__ == "__main__":
 	#isControlStrongSymbols(symbols,screener_country,market_symbol,candle_list)
 	candle_list = [5]
 	isControlStrongSymbols(strongBuySymbols,screener_country,market_symbol,candle_list)
+	#online python test url
+	#https://www.programiz.com/python-programming/online-compiler/
 
 
