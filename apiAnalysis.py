@@ -118,7 +118,7 @@ def get_signal(screener_country,market_symbol,symbol, candle):
 
 def isControlStrongSymbols(symbols,screener_country,market_symbol,candle_list):
 	signals_list = []
-	info = "Buy/Sell Signals from @tradingview - {} min candle\n\n".format(candle_list)
+	info = "Buy/Sell Signals from @tradingview - {} min candle\n".format(candle_list)
 	print(info)
 	while True:
 	    
@@ -128,24 +128,24 @@ def isControlStrongSymbols(symbols,screener_country,market_symbol,candle_list):
 	            msg = ""
 	            signal = round(get_signal(screener_country,market_symbol,symbol, candle),3)
 	            signal1.append(signal)
-	            msg += "{} {} : ".format(symbol, signal)
-	        if signal>0.5:
-	            msg+= "STRONG BUY"
-	        elif signal>0:
-	            msg+= "BUY"
-	        elif signal>-0.5:
-	            msg+= "SELL"
-	            print("Mesage :",msg)
-	            time.sleep(6)
-	        else:
-	            msg+= "STRONG SELL"
-	            print("Mesage :",msg)
-	            time.sleep(10)
-	        #mlog(symbol, signal)
-	        signals_list.append(signal1)
-	        time.sleep(3)
-	        print("Mesage :",msg)
-	print("*********************************\n")
+	            msg += "{} Signal: {} Candle: {} ".format(symbol, signal, candle)
+	            if signal>0.5:
+	                msg+= "STRONG BUY"
+	                print("Mesage :",msg)
+	            elif signal>0:
+	               msg+= "BUY"
+	               print("Mesage :",msg)
+	            elif signal>-0.5:
+	               msg+= "SELL"
+	               print("Mesage :",msg)
+	               time.sleep(2)
+	            else:
+	                msg+= "STRONG SELL"
+	                print("Mesage :",msg)
+	                time.sleep(2)
+	            signals_list.append(signal1)
+	            time.sleep(1)
+	    print("#####################################################################")
 	   
 
 def run(screener_country,candle_list):
@@ -161,7 +161,7 @@ def run(screener_country,candle_list):
 			try:
 			    signal = round(get_signal(screener_country,market_symbol,symbol, candle),3)
 			    signal1.append(signal)
-			    if signal>0.5:
+			    if signal>0.53:
 			        msg= "strong buy"
 			        signals_list.append(signal1)
 			        temp.append(symbol)
@@ -170,25 +170,46 @@ def run(screener_country,candle_list):
 			except:
 			    print("Analiz verisi alınamadı,hisse :",i)
 	return temp
+	
+menu_options = {
+    1: 'Piyasa Verilerini Tara:(Filter~Strong Buy)',
+    2: 'Hisse Senetlerimi Tara:(Ornek Data Format ERCB,VESBE,CASA,ZRGYO)',
+}
 
+def print_menu():
+    for key in menu_options.keys():
+        print (key, '--', menu_options[key] )
 
 if __name__ == "__main__":
 	screener_country="turkey"
 	market_symbol="BIST"
-	candle_list = [60] #Represented in minutes
-	info = "Turkish Stocks Buy/Sell Signals from @tradingview - {} min candle list\n\n".format(candle_list)
-	print(info)
-	data=run(screener_country,candle_list)
-	strongBuySymbols=list(dict.fromkeys(data))
-	#13.12.2022 strong buy sembols.
-	#strongBuySymbols=['ENSRI', 'KZBGY', 'LKMNH', 'YYLGD', 'BRKO', 'RUBNS', 'ULAS', 'BRYAT', 'YUNSA', 'MEPET', 'GMSTR', 'ANSGR', 'MTRKS', 'ECZYT', 'RODRG', 'RALYH', 'ALTIN', 'PEKGY', 'PRZMA', 'SAMAT', 'IMASM', 'MPARK', 'CRDFA', 'SRVGY', 'QPERP', 'IZINV', 'DOCO', 'ISGSY', 'GLDTR', 'SANFM', 'DOBUR', 'FONET', 'USAK', 'ISGYO', 'ORMA', 'DGGYO', 'KRDMD', 'VERTU', 'MARTI']
-	print("***********************************")
-	print("Strong Buy Symbols : ",strongBuySymbols)
-	print("*********************************\n")
-	time.sleep(30)
-	#isControlStrongSymbols(symbols,screener_country,market_symbol,candle_list)
-	candle_list = [5]
-	isControlStrongSymbols(strongBuySymbols,screener_country,market_symbol,candle_list)
+	print("*****************~TRADINGVIEW ANALYSIS~*****************")
+	print_menu()
+	option = int(input('Enter your choice (1 OR 2): '))
+	if option == 1:
+	    print("Hisse Seneti Analiz Periyotları (5,15,30,45,60,240,1W)\n")
+	    data = input('Analiz Periyodunu Giriniz(Ornek 5,15)=')
+	    candle_list = data.split(",")
+	    info = "Turkish Stocks Buy/Sell Signals from @tradingview - {} min candle list\n".format(candle_list)
+	    print(info)
+	    data=run(screener_country,candle_list)
+	    strongBuySymbols=list(dict.fromkeys(data))
+	    print("***********************************")
+	    print("Strong Buy Symbols : ",strongBuySymbols)
+	    print("*********************************\n")
+	    candle_list = [5]
+	    isControlStrongSymbols(strongBuySymbols,screener_country,market_symbol,candle_list)
+	elif option == 2:
+		mySembols = input('Hisselerinizi Giriniz: ')
+		data=mySembols.split(",")
+		print("Hisse Seneti Analiz Periyotları (5,15,30,45,60,240,1W)\n")
+		candleData = input('Analiz Periyodunu Giriniz(Ornek 5,15)=')
+		candle_list = candleData.split(",")
+		isControlStrongSymbols(data,screener_country,market_symbol,candle_list)
+	else:
+		print('Invalid option. Please enter a number 1 or 2.')
+	
+
+	
 	#online python test url
 	#https://www.programiz.com/python-programming/online-compiler/
-
